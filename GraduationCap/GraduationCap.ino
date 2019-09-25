@@ -4,7 +4,7 @@ FASTLED_USING_NAMESPACE
 
 #define COLUMNS    16
 #define ROWS        8
-#define BRIGHTNESS  5 // 0 - 255 
+#define BRIGHTNESS  80 // 0 - 255 
 #define MAX_AMPS    2
 
 #define NUM_LEDS    COLUMNS * ROWS
@@ -283,10 +283,10 @@ int toLinearGrid(int a) // 31 <==> 16
 }
 
 void setup() {
+  Serial.begin(9600);
   delay(3000);
   FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.setMaxPowerInVoltsAndMilliamps(5, MAX_AMPS * 1000); 
-  FastLED.setBrightness(BRIGHTNESS);
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, MAX_AMPS * 1000);
 }
 
 
@@ -296,18 +296,23 @@ SimplePatternList gPatterns = { image };//, rainbow, rainbowWithGlitter, confett
 
 uint8_t gCurrentPatternNumber = 0;
 uint8_t gHue = 0;
+uint8_t gBrightness = 0;
   
 void loop()
 {
   // Call the current pattern function once, updating the 'leds' array
   gPatterns[gCurrentPatternNumber]();
 
-  // send the 'leds' array out to the actual LED strip
   FastLED.show();
-  FastLED.delay(1000/FRAMES_PER_SECOND); 
+  FastLED.delay(1000 / FRAMES_PER_SECOND); 
 
   // do some periodic updates
-  EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
+  EVERY_N_MILLISECONDS( 20 ) { 
+    gHue++;
+  }
+  
+  if (gBrightness < BRIGHTNESS && gBrightness < 255) gBrightness++;
+    
   EVERY_N_SECONDS( 10 ) { nextPattern(); } // change patterns periodically
 }
 
@@ -324,9 +329,11 @@ void image()
   for (int i = 0; i < NUM_LEDS; i++)
   {
     int px = i + offset;
-    byte r = pixels[toLinearGrid(px)][1];
-    byte g = pixels[toLinearGrid(px)][0];
-    byte b = pixels[toLinearGrid(px)][2];
+    float br = gBrightness / 255.0f;
+    byte r =  (pixels[toLinearGrid(px)][1] * br);
+    byte g =  (pixels[toLinearGrid(px)][0] * br);
+    byte b =  (pixels[toLinearGrid(px)][2] * br);
+    
     leds[i].setRGB(r, g, b);
   }
 }
