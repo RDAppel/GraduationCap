@@ -37,9 +37,6 @@
             this.txtImageData = new System.Windows.Forms.TextBox();
             this.staMain = new System.Windows.Forms.StatusStrip();
             this.staSize = new System.Windows.Forms.ToolStripStatusLabel();
-            this.rdoLinear = new System.Windows.Forms.RadioButton();
-            this.rdoPixelData = new System.Windows.Forms.RadioButton();
-            this.rdoGrid = new System.Windows.Forms.RadioButton();
             this.btnCopy = new System.Windows.Forms.Button();
             this.cboZoom = new System.Windows.Forms.ComboBox();
             this.cboOutputFormat = new System.Windows.Forms.ComboBox();
@@ -130,41 +127,6 @@
             this.staSize.Name = "staSize";
             this.staSize.Size = new System.Drawing.Size(0, 17);
             // 
-            // rdoLinear
-            // 
-            this.rdoLinear.AutoSize = true;
-            this.rdoLinear.Checked = true;
-            this.rdoLinear.Location = new System.Drawing.Point(605, 36);
-            this.rdoLinear.Name = "rdoLinear";
-            this.rdoLinear.Size = new System.Drawing.Size(81, 17);
-            this.rdoLinear.TabIndex = 4;
-            this.rdoLinear.TabStop = true;
-            this.rdoLinear.Text = "Linear Array";
-            this.rdoLinear.UseVisualStyleBackColor = true;
-            this.rdoLinear.CheckedChanged += new System.EventHandler(this.rdoDisplay_CheckedChanged);
-            // 
-            // rdoPixelData
-            // 
-            this.rdoPixelData.AutoSize = true;
-            this.rdoPixelData.Location = new System.Drawing.Point(697, 36);
-            this.rdoPixelData.Name = "rdoPixelData";
-            this.rdoPixelData.Size = new System.Drawing.Size(100, 17);
-            this.rdoPixelData.TabIndex = 4;
-            this.rdoPixelData.Text = "Pixel Data Array";
-            this.rdoPixelData.UseVisualStyleBackColor = true;
-            this.rdoPixelData.CheckedChanged += new System.EventHandler(this.rdoDisplay_CheckedChanged);
-            // 
-            // rdoGrid
-            // 
-            this.rdoGrid.AutoSize = true;
-            this.rdoGrid.Location = new System.Drawing.Point(808, 36);
-            this.rdoGrid.Name = "rdoGrid";
-            this.rdoGrid.Size = new System.Drawing.Size(71, 17);
-            this.rdoGrid.TabIndex = 4;
-            this.rdoGrid.Text = "Grid Array";
-            this.rdoGrid.UseVisualStyleBackColor = true;
-            this.rdoGrid.CheckedChanged += new System.EventHandler(this.rdoDisplay_CheckedChanged);
-            // 
             // btnCopy
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -183,6 +145,7 @@
             this.cboZoom.Name = "cboZoom";
             this.cboZoom.Size = new System.Drawing.Size(78, 21);
             this.cboZoom.TabIndex = 6;
+            this.cboZoom.SelectedIndexChanged += new System.EventHandler(this.updateDisplay);
             // 
             // cboOutputFormat
             // 
@@ -191,6 +154,7 @@
             this.cboOutputFormat.Name = "cboOutputFormat";
             this.cboOutputFormat.Size = new System.Drawing.Size(156, 21);
             this.cboOutputFormat.TabIndex = 7;
+            this.cboOutputFormat.SelectedIndexChanged += new System.EventHandler(this.updateDisplay);
             // 
             // label1
             // 
@@ -220,9 +184,6 @@
             this.Controls.Add(this.cboOutputFormat);
             this.Controls.Add(this.cboZoom);
             this.Controls.Add(this.btnCopy);
-            this.Controls.Add(this.rdoGrid);
-            this.Controls.Add(this.rdoPixelData);
-            this.Controls.Add(this.rdoLinear);
             this.Controls.Add(this.staMain);
             this.Controls.Add(this.txtImageData);
             this.Controls.Add(this.pbxImage);
@@ -251,9 +212,6 @@
         private System.Windows.Forms.TextBox txtImageData;
         private System.Windows.Forms.StatusStrip staMain;
         private System.Windows.Forms.ToolStripStatusLabel staSize;
-        private System.Windows.Forms.RadioButton rdoLinear;
-        private System.Windows.Forms.RadioButton rdoPixelData;
-        private System.Windows.Forms.RadioButton rdoGrid;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.ComboBox cboZoom;
         private System.Windows.Forms.ComboBox cboOutputFormat;

@@ -24,7 +24,11 @@ namespace ImageToPixelArrays
 
             foreach(string s in formats.Keys) cboOutputFormat.Items.Add(s);
 
+            int[] zoomLevels = { 1, 2, 5, 10, 20 };
+            foreach (int i in zoomLevels) cboZoom.Items.Add(i);
+
             cboOutputFormat.SelectedIndex = 0;
+            cboZoom.SelectedIndex = 0;
         }
 
         private void mnuFileExit_Click(object sender, EventArgs e)
@@ -32,13 +36,13 @@ namespace ImageToPixelArrays
             Close();
         }
 
-        private void updateDisplay()
+        private void updateDisplay(object sender, EventArgs e)
         {
             if (image != null)
             {
                 // display image
-                float scale = 20;
 
+                int scale = (int)cboZoom.SelectedItem;
                 int width = (int)(scale * image.Size.Width);
                 int height = (int)(scale * image.Size.Height);
                 Bitmap scaled = new Bitmap(width, height);
@@ -102,7 +106,7 @@ namespace ImageToPixelArrays
 
         private void rdoDisplay_CheckedChanged(object sender, EventArgs e)
         {
-            updateDisplay();
+            updateDisplay(sender, e);
         }
         
         private void displayGridArray(Bitmap image)
@@ -139,7 +143,7 @@ namespace ImageToPixelArrays
                 Size size = image.Size;
                 staSize.Text = size.ToString();
 
-                updateDisplay();
+                updateDisplay(sender, e);
             }
         }
 
